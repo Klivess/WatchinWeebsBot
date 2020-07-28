@@ -97,6 +97,10 @@ namespace WatchinWeebsBot
                 var roleid = role.Id;
                 await e.Guild.GetMemberAsync(e.Message.Author.Id).Result.GrantRoleAsync();
             }
+            if(e.Message.Content().ToLower().Contains("nezuko let me simp"))
+            {
+                await e.Channel.SendMessage.Async("Donate to my onlyfans.");
+            }
         }
 
         async Task Client_MessageDeleted(MessageDeleteEventArgs e)

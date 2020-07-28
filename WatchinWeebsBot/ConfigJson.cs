@@ -5,10 +5,8 @@ using System.Text;
 
 namespace WatchinWeebsBot
 {
-    public struct ConfigJson
+    public class ConfigJson
     {
-        [JsonProperty("token")]
-        public string Token { get; private set; }
-        public string Prefix { get; private set; }
+        public string Token = "NzM3MzI2NTY4MjcxMTE4NDU3.Xx7u4A.J7EOpMAa_enqxqgifrExpijNckA";
     }
 }

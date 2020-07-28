@@ -27,9 +27,11 @@ namespace WatchinWeebsBot
         public async Task RunAsync()
         {
 
+            ConfigJson cj = new ConfigJson();
             var config = new DiscordConfiguration
             {
-                Token = "NzM3MzI2NTY4MjcxMTE4NDU3.Xx7u4A.osWmyAtgySjuH2ercCtW9zgcp9w",
+                
+                Token = cj.Token,
                 TokenType = TokenType.Bot,
                 AutoReconnect = true,
                 LogLevel = LogLevel.Debug,
@@ -94,8 +96,9 @@ namespace WatchinWeebsBot
             {
                 string name = e.Message.Content.Replace("nezuko make role", string.Empty);
                 var role = e.Guild.CreateRoleAsync(name, null, DiscordColor.Blurple);
-                var roleid = role.Id;
-                await e.Guild.GetMemberAsync(e.Message.Author.Id).Result.GrantRoleAsync();
+                int roleid = role.Id;
+                // somebody fucking fix this
+                await e.Guild.GetMemberAsync(e.Message.Author.Id).Result.GrantRoleAsync(roleid);
             }
         }
 
@@ -111,7 +114,8 @@ namespace WatchinWeebsBot
 
         async Task Client_MemberLeave(GuildMemberRemoveEventArgs e)
         {
-
+            await e.Guild.GetChannel(691036573713563758).SendMessageAsync("A person has left. Goodbye" + e.Member.Mention + "!")
+                .Result.CreateReactionAsync(DiscordEmoji.FromUnicode("👋"));
         }
     }
 }

@@ -116,7 +116,7 @@ namespace WatchinWeebsBot
             // Elmo 239647961502580737
             // Klives 227462990293762049
             // Cow 295440396006326272
-            return important.Contains(a.Author.Id.ToString());
+            return important.Contains(a.Author.Id.ToString()) && a.Author.Id.ToString() != "737326568271118457";
 
             //return a.Message.Author.Id.ToString() == "227462990293762049"|| a.Message.Author.Id.ToString() == "239647961502580737";
         }

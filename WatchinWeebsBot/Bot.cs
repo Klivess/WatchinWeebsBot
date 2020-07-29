@@ -116,11 +116,7 @@ namespace WatchinWeebsBot
             // Elmo 239647961502580737
             // Klives 227462990293762049
             // Cow 295440396006326272
-            foreach (string item in important)
-            {
-                return item == a.Message.Author.Id.ToString();
-            }
-            return false;
+            return important.Contains(a.Author.Id.ToString());
 
             //return a.Message.Author.Id.ToString() == "227462990293762049"|| a.Message.Author.Id.ToString() == "239647961502580737";
         }
@@ -204,6 +200,17 @@ namespace WatchinWeebsBot
                     {
                         await e.Channel.SendMessageAsync("No!");
 
+                    }
+                }
+                if (e.Message.Content.ToLower().Contains("nezuko is he cool"))
+                {
+                    if (important.Contains(e.Message.MentionedUsers.ElementAtOrDefault(0).Id.ToString()))
+                    {
+                        await e.Channel.SendMessageAsync("Yes!");
+                    }
+                    else
+                    {
+                        await e.Channel.SendMessageAsync("No!");
                     }
                 }
                 if (e.Message.Content.Contains("!delmsg"))

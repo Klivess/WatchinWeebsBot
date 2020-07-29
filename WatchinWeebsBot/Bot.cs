@@ -182,8 +182,12 @@ namespace WatchinWeebsBot
                 {
                     if (CheckIfCoolPerson(e))
                     {
-                        await e.Message.MentionedChannels.ElementAtOrDefault(0).SendMessageAsync(e.Message.Content.Replace("!smsg", string.Empty));
+                        var firstchaannel = e.Message.MentionedChannels.ElementAtOrDefault(0).Name.ToString();
+                        var firstchannelbyid = e.Guild.GetChannel(e.Message.MentionedChannels.ElementAtOrDefault(0).Id);
+                        var finalsay = e.Message.Content.ToString().Replace("!smsg ", string.Empty).Replace("#", string.Empty).Replace(firstchaannel, string.Empty).Replace("<", string.Empty).Replace(">", string.Empty).Replace(e.Message.MentionedChannels.ElementAtOrDefault(0).Id.ToString(), string.Empty);
                         await e.Message.DeleteAsync();
+                        Console.WriteLine(finalsay);
+                        await firstchannelbyid.SendMessageAsync(finalsay);
                     }
                     else
                     {
@@ -215,14 +219,14 @@ namespace WatchinWeebsBot
                 }
                 if (e.Message.Content.Contains("!delmsg"))
                 {
-                    if (CheckIfCoolPerson(e))
+                    foreach (var dc in e.Guild.Channels)
                     {
-                        await e.Channel.GetMessageAsync(Convert.ToUInt64(e.Message.Content.Replace("!delmsg ", string.Empty))).Result.DeleteAsync();
-                        await e.Message.DeleteAsync();
-                    }
-                    else
-                    {
-                        await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
+                        var channel = e.Guild.GetChannel(dc.Key);
+                        var messagee = channel.GetMessageAsync(Convert.ToUInt64(e.Message.Content.Replace("!delmsg ", string.Empty)));
+                        if (messagee.Result != null)
+                        {
+                            await messagee.Result.DeleteAsync();
+                        }
                     }
                 }
                 if (e.Message.Content.ToLower().Contains("make channel nezuko"))

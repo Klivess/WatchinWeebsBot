@@ -8,6 +8,7 @@ using Microsoft.VisualBasic.CompilerServices;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
@@ -132,6 +133,23 @@ namespace WatchinWeebsBot
                     await e.Channel.SendMessageAsync("Role has been made!");
                 }
                 */
+                if (e.Message.Content.Contains("!restart"))
+                {
+                    if (e.Message.Author.Id.ToString() == "227462990293762049")
+                    {
+                        await e.Message.Channel.SendMessageAsync("Restarting.");
+                        Process.Start("WatchinWeebsBot.exe");
+                        System.Environment.Exit(1);
+                    }
+                }
+                if (e.Message.Content.Contains("!quit"))
+                {
+                    if (e.Message.Author.Id.ToString() == "227462990293762049")
+                    {
+                        await e.Message.Channel.SendMessageAsync("Quitting.");
+                        System.Environment.Exit(1);
+                    }
+                }
                 if (e.Message.Content.ToLower().Contains("make channel nezuko"))
                 {
                     if (e.Message.Author.Id.ToString() == "227462990293762049")

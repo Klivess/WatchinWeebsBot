@@ -13,6 +13,7 @@ using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
 using System.Runtime.ConstrainedExecution;
+using System.Runtime.InteropServices;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -107,13 +108,21 @@ namespace WatchinWeebsBot
         }
 
         public bool tracing = false;
+        public static string[] basemain = { "227462990293762049", "239647961502580737" };
+        public List<string> important = new List<string>(basemain);
 
         private bool CheckIfCoolPerson(MessageCreateEventArgs a)
         {
             // Elmo 239647961502580737
             // Klives 227462990293762049
             // Cow 295440396006326272
-            return a.Message.Author.Id.ToString() == "227462990293762049"|| a.Message.Author.Id.ToString() == "239647961502580737";
+            foreach (string item in important)
+            {
+                return item == a.Message.Author.Id.ToString();
+            }
+            return false;
+
+            //return a.Message.Author.Id.ToString() == "227462990293762049"|| a.Message.Author.Id.ToString() == "239647961502580737";
         }
 
         async Task Client_MessageSent(MessageCreateEventArgs e)
@@ -143,11 +152,15 @@ namespace WatchinWeebsBot
                 */
                 if (e.Message.Content.Contains("!restart"))
                 {
-                    if (e.Message.Author.Id.ToString() == "227462990293762049")
+                    if (CheckIfCoolPerson(e))
                     {
                         await e.Message.Channel.SendMessageAsync("Restarting.");
                         Process.Start("WatchinWeebsBot.exe");
                         System.Environment.Exit(1);
+                    }
+                    else
+                    {
+                        await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
                     }
                 }
                 if (e.Message.Content.Contains("!quit"))
@@ -157,6 +170,17 @@ namespace WatchinWeebsBot
                         await e.Message.Channel.SendMessageAsync("Quitting.");
                         System.Environment.Exit(1);
                     }
+                    else
+                    {
+                        await e.Message.Channel.SendMessageAsync("Only Klives can execute this!.");
+                    }
+                }
+                if (e.Message.Content.Contains("!showmeallcool"))
+                {
+                    foreach(string item in important)
+                    {
+                        e.Channel.SendMessageAsync(item);
+                    }
                 }
                 if (e.Message.Content.Contains("!smsg"))
                 {
@@ -165,6 +189,22 @@ namespace WatchinWeebsBot
                         await e.Message.MentionedChannels.ElementAtOrDefault(0).SendMessageAsync(e.Message.Content.Replace("!smsg", string.Empty));
                         await e.Message.DeleteAsync();
                     }
+                    else
+                    {
+                        await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
+                    }
+                }
+                if (e.Message.Content.ToLower().Contains("nezuko am i cool"))
+                {
+                    if (CheckIfCoolPerson(e))
+                    {
+                        await e.Channel.SendMessageAsync("Yes!");
+                    }
+                    else
+                    {
+                        await e.Channel.SendMessageAsync("No!");
+
+                    }
                 }
                 if (e.Message.Content.Contains("!delmsg"))
                 {
@@ -172,6 +212,10 @@ namespace WatchinWeebsBot
                     {
                         await e.Channel.GetMessageAsync(Convert.ToUInt64(e.Message.Content.Replace("!delmsg ", string.Empty))).Result.DeleteAsync();
                         await e.Message.DeleteAsync();
+                    }
+                    else
+                    {
+                        await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
                     }
                 }
                 if (e.Message.Content.ToLower().Contains("make channel nezuko"))
@@ -182,6 +226,10 @@ namespace WatchinWeebsBot
                         await e.Guild.CreateChannelAsync(name, 0);
                         await e.Channel.SendMessageAsync("Channel has been made!");
                     }
+                    else
+                    {
+                        await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
+                    }
                 }
                 if (e.Message.Content.ToLower().Contains("delete channel nezuko"))
                 {
@@ -190,6 +238,10 @@ namespace WatchinWeebsBot
                         await e.Message.MentionedChannels.ElementAtOrDefault(0).DeleteAsync();
                         await e.Channel.SendMessageAsync("Channel has been deleted!");
                     }
+                    else
+                    {
+                        await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
+                    }
                 }
                 if (e.Message.Content.ToLower().Contains("lock this chat"))
                 {
@@ -197,6 +249,44 @@ namespace WatchinWeebsBot
                     {
                         bruh.Add(e.Message.Channel.Id.ToString());
                         await e.Channel.SendMessageAsync("Channel has been locked!");
+                    }
+                    else
+                    {
+                        await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
+                    }
+                }
+                if (e.Message.Content.ToLower().Contains("!addcool"))
+                {
+                    if (CheckIfCoolPerson(e))
+                    {
+
+                        important.Add(e.Message.MentionedUsers.ElementAtOrDefault(0).Id.ToString());
+                        await e.Message.Channel.SendMessageAsync("Added!");
+                    }
+                    else
+                    {
+                        await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
+                    }
+                }
+                if (e.Message.Content.ToLower().Contains("!removecool"))
+                {
+                    if (CheckIfCoolPerson(e))
+                    {
+                        var guy = e.Message.MentionedUsers.ElementAtOrDefault(0).Id.ToString();
+                        if (guy == "227462990293762049")
+                        {
+                            await e.Message.Channel.SendMessageAsync("You can't remove my owner, silly!");
+                        }
+                        else
+                        {
+                            var index = important.FindIndex(x => x.Contains(guy));
+                            important.RemoveAt(index);
+                            await e.Message.Channel.SendMessageAsync("Removed!");
+                        }
+                    }
+                    else
+                    {
+                        await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
                     }
                 }
                 if (e.Message.Content.ToLower().Contains("unlock this chat"))

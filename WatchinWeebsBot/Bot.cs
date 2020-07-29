@@ -110,7 +110,10 @@ namespace WatchinWeebsBot
 
         private bool CheckIfCoolPerson(MessageCreateEventArgs a)
         {
-            return a.Message.Author.Id.ToString() == "227462990293762049" || a.Message.Author.Id.ToString() == "295440396006326272" || a.Message.Author.Id.ToString() == "239647961502580737";
+            // Elmo 239647961502580737
+            // Klives 227462990293762049
+            // Cow 295440396006326272
+            return a.Message.Author.Id.ToString() == "227462990293762049"|| a.Message.Author.Id.ToString() == "239647961502580737";
         }
 
         async Task Client_MessageSent(MessageCreateEventArgs e)

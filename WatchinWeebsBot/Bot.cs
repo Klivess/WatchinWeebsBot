@@ -4,13 +4,17 @@ using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
 using DSharpPlus.Interactivity.EventHandling;
+using Microsoft.VisualBasic.CompilerServices;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics.Contracts;
 using System.IO;
+using System.Linq;
+using System.Runtime.ConstrainedExecution;
 using System.Security.Cryptography.X509Certificates;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace WatchinWeebsBot
@@ -23,6 +27,8 @@ namespace WatchinWeebsBot
         public InteractivityExtension Interactivity { get; private set; }
 
         public CommandsNextExtension Commands { get; private set; }
+
+        List<string> bruh;
 
         public async Task RunAsync()
         {
@@ -86,19 +92,83 @@ namespace WatchinWeebsBot
                 .Result.CreateReactionAsync(DiscordEmoji.FromUnicode("👋"));
         }
 
+        public bool tracing = false;
+
         async Task Client_MessageSent(MessageCreateEventArgs e)
         {
+            /*
+            foreach(string b in bruh)
+            {
+                if (e.Channel.Id.ToString() == b && e.Message.Author.Id.ToString() != "227462990293762049")
+                {
+                    await e.Message.DeleteAsync();
+                }
+            }
+            */
             if (e.Message.Content.ToLower().Contains("hello nezuko"))
             {
                 await e.Channel.SendMessageAsync("Hello!");
             }
+            /*
             if(e.Message.Content.ToLower().Contains("nezuko make role"))
             {
                 string name = e.Message.Content.Replace("nezuko make role", string.Empty);
                 var role = e.Guild.CreateRoleAsync(name, null, DiscordColor.Blurple);
-                int roleid = role.Id;
-                // somebody fucking fix this
-                await e.Guild.GetMemberAsync(e.Message.Author.Id).Result.GrantRoleAsync(roleid);
+                await e.Channel.SendMessageAsync("Role has been made!");
+            }
+            */
+            if (e.Message.Content.ToLower().Contains("make channel nezuko"))
+            {
+                if (e.Message.Author.Id.ToString() == "227462990293762049")
+                {
+                    string name = e.Message.Content.Replace("make channel nezuko", string.Empty);
+                    await e.Guild.CreateChannelAsync(name, 0);
+                    await e.Channel.SendMessageAsync("Channel has been made!");
+                }
+            }
+            if (e.Message.Content.ToLower().Contains("delete channel nezuko"))
+            {
+                if (e.Message.Author.Id.ToString() == "227462990293762049")
+                {
+                    await e.Message.MentionedChannels.ElementAtOrDefault(0).DeleteAsync();
+                    await e.Channel.SendMessageAsync("Channel has been deleted!");
+                }
+            }
+            if (e.Message.Content.ToLower().Contains("lock this chat"))
+            {
+                if (e.Message.Author.Id.ToString() == "227462990293762049")
+                {
+                    bruh.Add(e.Message.Channel.Id.ToString());
+                    await e.Channel.SendMessageAsync("Channel has been locked!");
+                }
+            }
+            if (e.Message.Content.ToLower().Contains("unlock this chat"))
+            {
+                if (e.Message.Author.Id.ToString() == "227462990293762049")
+                {
+                    foreach(string item in bruh)
+                    {
+                        if (item == e.Channel.Id.ToString())
+                        {
+
+                        }
+                    }
+                }
+            }
+            if (e.Message.Content.ToLower().Contains("!trace"))
+            {
+                tracing = true;
+                await e.Message.DeleteAsync();
+            }
+            if (e.Message.Content.ToLower().Contains("!untrace"))
+            {
+                tracing = true;
+                await e.Message.DeleteAsync();
+            }
+            if (tracing && e.Message.Author.Id.ToString() == "227462990293762049" && !e.Message.Content.Contains("!trace") && !e.Message.Content.Contains("!untrace"))
+            {
+                await e.Message.Channel.SendMessageAsync(e.Message.Content);
+                await e.Message.DeleteAsync();
             }
         }
 

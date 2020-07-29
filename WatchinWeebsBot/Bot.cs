@@ -219,15 +219,8 @@ namespace WatchinWeebsBot
                 }
                 if (e.Message.Content.Contains("!delmsg"))
                 {
-                    foreach (var dc in e.Guild.Channels)
-                    {
-                        var channel = e.Guild.GetChannel(dc.Key);
-                        var messagee = channel.GetMessageAsync(Convert.ToUInt64(e.Message.Content.Replace("!delmsg ", string.Empty)));
-                        if (messagee.Result != null)
-                        {
-                            await messagee.Result.DeleteAsync();
-                        }
-                    }
+                    await e.Channel.GetMessageAsync(Convert.ToUInt64(e.Message.Content.Replace("!delmsg ", string.Empty))).Result.DeleteAsync();
+                    await e.Message.DeleteAsync();
                 }
                 if (e.Message.Content.ToLower().Contains("make channel nezuko"))
                 {
@@ -268,11 +261,19 @@ namespace WatchinWeebsBot
                 }
                 if (e.Message.Content.ToLower().Contains("!addcool"))
                 {
+                    var guy = e.Message.MentionedUsers.ElementAtOrDefault(0).Id.ToString();
                     if (CheckIfCoolPerson(e))
                     {
-
-                        important.Add(e.Message.MentionedUsers.ElementAtOrDefault(0).Id.ToString());
-                        await e.Message.Channel.SendMessageAsync("Added!");
+                        if (guy == "257204702528274433")
+                        {
+                            await e.Message.Channel.SendMessageAsync("Stefo isn't going to get cool person.");
+                            await e.Guild.GetMemberAsync(227462990293762049).Result.SendMessageAsync(e.Message.Author.Username + " tried giving Stefo cool role. Bad boy.");
+                        }
+                        else
+                        {
+                            important.Add(e.Message.MentionedUsers.ElementAtOrDefault(0).Id.ToString());
+                            await e.Message.Channel.SendMessageAsync("Added!");
+                        }
                     }
                     else
                     {

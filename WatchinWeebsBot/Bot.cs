@@ -108,6 +108,11 @@ namespace WatchinWeebsBot
 
         public bool tracing = false;
 
+        private bool CheckIfCoolPerson(MessageCreateEventArgs a)
+        {
+            return a.Message.Author.Id.ToString() == "227462990293762049" || a.Message.Author.Id.ToString() == "295440396006326272" || a.Message.Author.Id.ToString() == "239647961502580737";
+        }
+
         async Task Client_MessageSent(MessageCreateEventArgs e)
         {
             try
@@ -152,7 +157,7 @@ namespace WatchinWeebsBot
                 }
                 if (e.Message.Content.Contains("!smsg"))
                 {
-                    if (e.Message.Author.Id.ToString() == "227462990293762049")
+                    if (CheckIfCoolPerson(e))
                     {
                         await e.Message.MentionedChannels.ElementAtOrDefault(0).SendMessageAsync(e.Message.Content.Replace("!smsg", string.Empty));
                         await e.Message.DeleteAsync();
@@ -160,7 +165,7 @@ namespace WatchinWeebsBot
                 }
                 if (e.Message.Content.Contains("!delmsg"))
                 {
-                    if (e.Message.Author.Id.ToString() == "227462990293762049")
+                    if (CheckIfCoolPerson(e))
                     {
                         await e.Channel.GetMessageAsync(Convert.ToUInt64(e.Message.Content.Replace("!delmsg ", string.Empty))).Result.DeleteAsync();
                         await e.Message.DeleteAsync();
@@ -168,7 +173,7 @@ namespace WatchinWeebsBot
                 }
                 if (e.Message.Content.ToLower().Contains("make channel nezuko"))
                 {
-                    if (e.Message.Author.Id.ToString() == "227462990293762049")
+                    if (CheckIfCoolPerson(e))
                     {
                         string name = e.Message.Content.Replace("make channel nezuko", string.Empty);
                         await e.Guild.CreateChannelAsync(name, 0);
@@ -177,7 +182,7 @@ namespace WatchinWeebsBot
                 }
                 if (e.Message.Content.ToLower().Contains("delete channel nezuko"))
                 {
-                    if (e.Message.Author.Id.ToString() == "227462990293762049")
+                    if (CheckIfCoolPerson(e))
                     {
                         await e.Message.MentionedChannels.ElementAtOrDefault(0).DeleteAsync();
                         await e.Channel.SendMessageAsync("Channel has been deleted!");
@@ -206,13 +211,19 @@ namespace WatchinWeebsBot
                 }
                 if (e.Message.Content.ToLower().Contains("!trace"))
                 {
-                    tracing = true;
-                    await e.Message.DeleteAsync();
+                    if (CheckIfCoolPerson(e))
+                    {
+                        tracing = true;
+                        await e.Message.DeleteAsync();
+                    }
                 }
                 if (e.Message.Content.ToLower().Contains("!untrace"))
                 {
-                    tracing = true;
-                    await e.Message.DeleteAsync();
+                    if (CheckIfCoolPerson(e))
+                    {
+                        tracing = true;
+                        await e.Message.DeleteAsync();
+                    }
                 }
                 if (tracing && e.Message.Author.Id.ToString() == "227462990293762049" && !e.Message.Content.Contains("!trace") && !e.Message.Content.Contains("!untrace"))
                 {

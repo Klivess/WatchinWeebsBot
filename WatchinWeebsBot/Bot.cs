@@ -150,6 +150,22 @@ namespace WatchinWeebsBot
                         System.Environment.Exit(1);
                     }
                 }
+                if (e.Message.Content.Contains("!smsg"))
+                {
+                    if (e.Message.Author.Id.ToString() == "227462990293762049")
+                    {
+                        await e.Message.MentionedChannels.ElementAtOrDefault(0).SendMessageAsync(e.Message.Content.Replace("!smsg", string.Empty));
+                        await e.Message.DeleteAsync();
+                    }
+                }
+                if (e.Message.Content.Contains("!delmsg"))
+                {
+                    if (e.Message.Author.Id.ToString() == "227462990293762049")
+                    {
+                        await e.Channel.GetMessageAsync(Convert.ToUInt64(e.Message.Content.Replace("!delmsg ", string.Empty))).Result.DeleteAsync();
+                        await e.Message.DeleteAsync();
+                    }
+                }
                 if (e.Message.Content.ToLower().Contains("make channel nezuko"))
                 {
                     if (e.Message.Author.Id.ToString() == "227462990293762049")

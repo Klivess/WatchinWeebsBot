@@ -146,6 +146,17 @@ namespace WatchinWeebsBot
                     await e.Channel.SendMessageAsync("Role has been made!");
                 }
                 */
+                if (e.Message.Content.ToLower().Contains("klives"))
+                {
+                    try
+                    {
+                        await e.Guild.GetMemberAsync(227462990293762049).Result.SendMessageAsync(e.Message.Author.Username + " said your name!");
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                }
                 if (e.Message.Content.Contains("!restart"))
                 {
                     if (CheckIfCoolPerson(e))

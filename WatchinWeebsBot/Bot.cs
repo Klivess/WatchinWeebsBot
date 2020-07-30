@@ -167,6 +167,7 @@ namespace WatchinWeebsBot
                 }
                 if (e.Message.Content.ToLower().Contains("!nezukoupdatememe") && CheckIfCoolPerson(e))
                 {
+                    await e.Channel.SendMessageAsync("Updating my memes!");
                     await UpdateTheFunny();
                 }
                 /*

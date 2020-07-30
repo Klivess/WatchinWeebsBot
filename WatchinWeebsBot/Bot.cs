@@ -84,7 +84,9 @@ namespace WatchinWeebsBot
 
         async Task PostTheFunny()
         {
-
+            Random rnd = new Random();
+            string rndpath = Directory.GetFiles("memes").ElementAt(rnd.Next(1, Directory.GetFiles("memes").Length));
+            await Client.GetGuildAsync(691036170238427186).Result.GetChannel(729099294669275228).SendFileAsync(rndpath);
         }
 
         async Task UpdateTheFunny()
@@ -194,6 +196,10 @@ namespace WatchinWeebsBot
                         Console.WriteLine(ex.Message);
                     }
                 }
+                if (e.Message.Content.ToLower().Contains("!postthefunny"))
+                {
+                    await PostTheFunny();
+                }
                 if (e.Message.Content.Contains("!restart"))
                 {
                     if (CheckIfCoolPerson(e))
@@ -205,6 +211,14 @@ namespace WatchinWeebsBot
                     else
                     {
                         await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
+                    }
+                }
+                if (e.Message.Content.ToLower().Contains("!nezban"))
+                {
+                    if (CheckIfCoolPerson(e))
+                    {
+                        await e.Guild.GetMemberAsync(e.Message.MentionedUsers.ElementAtOrDefault(0).Id).Result.BanAsync();
+                        await e.Message.Channel.SendMessageAsync(e.Message.MentionedUsers.ElementAtOrDefault(0).Username);
                     }
                 }
                 if (e.Message.Content.Contains("!quit"))

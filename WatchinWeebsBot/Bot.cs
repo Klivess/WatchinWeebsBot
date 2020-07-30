@@ -82,6 +82,33 @@ namespace WatchinWeebsBot
             Console.WriteLine("Bot is up!");
         }
 
+        async Task PostTheFunny()
+        {
+
+        }
+
+        async Task UpdateTheFunny()
+        {
+            // C:\Users\Server Computer\Desktop\watchin bot\WatchinWeebsBot\WatchinWeebsBot\bin\Debug\netcoreapp3.1\memes
+            string[] strcd =
+            {
+                "C:",
+                "Users",
+                "Server Computer",
+                "Desktop",
+                "watchin bot",
+                "WatchinWeebsBot",
+                "WatchinWeebsBot",
+                "bin",
+                "Debug",
+                "netcoreapp3.1",
+                "memes"
+            };
+            string finalpath = Path.Combine(strcd);
+            string strCmdText = "'/C cd "+finalpath+"&& git pull";
+            Process.Start("CMD.exe", strCmdText);
+        }
+
         async Task Client_GuildMemberBanned(GuildBanAddEventArgs e)
         {
             try
@@ -108,7 +135,7 @@ namespace WatchinWeebsBot
         }
 
         public bool tracing = false;
-        public static string[] basemain = { "227462990293762049", "239647961502580737" };
+        public static string[] basemain = { "227462990293762049", "239647961502580737", "453826077442179072" };
         public List<string> important = new List<string>(basemain);
 
         private bool CheckIfCoolPerson(MessageCreateEventArgs a)
@@ -137,6 +164,10 @@ namespace WatchinWeebsBot
                 if (e.Message.Content.ToLower().Contains("hello nezuko"))
                 {
                     await e.Channel.SendMessageAsync("Hello!");
+                }
+                if (e.Message.Content.ToLower().Contains("!nezukoupdatememe") && CheckIfCoolPerson(e))
+                {
+                    await UpdateTheFunny();
                 }
                 /*
                 if(e.Message.Content.ToLower().Contains("nezuko make role"))

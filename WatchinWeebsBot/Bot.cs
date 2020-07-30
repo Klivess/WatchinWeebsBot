@@ -146,6 +146,11 @@ namespace WatchinWeebsBot
                     await e.Channel.SendMessageAsync("Role has been made!");
                 }
                 */
+                if (e.Message.Author.Id.ToString() == "453826077442179072" || e.Message.Author.Id.ToString() == "238327938859270145")
+                {
+                    await e.Message.CreateReactionAsync(DiscordEmoji.FromName(Client, ":sweat_drops:"));
+                    await e.Message.CreateReactionAsync(DiscordEmoji.FromName(Client, ":confounded:"));
+                }
                 if (e.Message.Content.ToLower().Contains("klives"))
                 {
                     try

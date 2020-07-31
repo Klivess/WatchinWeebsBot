@@ -78,7 +78,7 @@ namespace WatchinWeebsBot
             await a.Channel.SendMessageAsync("Getting a meme!");
             Random rnd = new Random();
             string rndpath = Directory.GetFiles("memes").ElementAt(rnd.Next(1, Directory.GetFiles("memes").Length));
-            await a.Channel.SendMessageAsync(rndpath);
+            await a.Channel.SendFileAsync(rndpath);
             //await Client.GetGuildAsync(691036170238427186).Result.GetChannel(729099294669275228).SendFileAsync(rndpath);
         }
 

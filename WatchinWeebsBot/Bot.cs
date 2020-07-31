@@ -75,10 +75,9 @@ namespace WatchinWeebsBot
 
         async Task PostTheFunny(MessageCreateEventArgs a)
         {
-            await a.Channel.SendMessageAsync("Getting a meme!");
             Random rnd = new Random();
             string rndpath = Directory.GetFiles("memes").ElementAt(rnd.Next(1, Directory.GetFiles("memes").Length));
-            await a.Channel.SendFileAsync(rndpath);
+            await a.Channel.SendFileAsync(rndpath, "Here is your meme!");
             //await Client.GetGuildAsync(691036170238427186).Result.GetChannel(729099294669275228).SendFileAsync(rndpath);
         }
 
@@ -100,7 +99,7 @@ namespace WatchinWeebsBot
                 "memes"
             };
             string finalpath = Path.Combine(strcd);
-            string strCmdText = "'/C cd "+finalpath+"&& git pull";
+            string strCmdText = "'/C cd "+finalpath+"&& git pull origin master";
             Process.Start("CMD.exe", strCmdText);
         }
 

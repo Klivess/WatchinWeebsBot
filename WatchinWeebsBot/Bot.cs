@@ -3,20 +3,11 @@ using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
 using DSharpPlus.EventArgs;
 using DSharpPlus.Interactivity;
-using DSharpPlus.Interactivity.EventHandling;
-using Microsoft.VisualBasic.CompilerServices;
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using System.Diagnostics.Contracts;
 using System.IO;
 using System.Linq;
-using System.Runtime.ConstrainedExecution;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 
 namespace WatchinWeebsBot
@@ -82,14 +73,16 @@ namespace WatchinWeebsBot
             Console.WriteLine("Bot is up!");
         }
 
-        async Task PostTheFunny()
+        async Task PostTheFunny(MessageCreateEventArgs a)
         {
+            await a.Channel.SendMessageAsync("Getting a meme!");
             Random rnd = new Random();
             string rndpath = Directory.GetFiles("memes").ElementAt(rnd.Next(1, Directory.GetFiles("memes").Length));
-            await Client.GetGuildAsync(691036170238427186).Result.GetChannel(729099294669275228).SendFileAsync(rndpath);
+            await a.Channel.SendMessageAsync(rndpath);
+            //await Client.GetGuildAsync(691036170238427186).Result.GetChannel(729099294669275228).SendFileAsync(rndpath);
         }
 
-        async Task UpdateTheFunny()
+        async Task UpdateTheFunny(MessageCreateEventArgs a)
         {
             // C:\Users\Server Computer\Desktop\watchin bot\WatchinWeebsBot\WatchinWeebsBot\bin\Debug\netcoreapp3.1\memes
             string[] strcd =
@@ -170,7 +163,7 @@ namespace WatchinWeebsBot
                 if (e.Message.Content.ToLower().Contains("!nezukoupdatememe") && CheckIfCoolPerson(e))
                 {
                     await e.Channel.SendMessageAsync("Updating my memes!");
-                    await UpdateTheFunny();
+                    await UpdateTheFunny(e);
                 }
                 /*
                 if(e.Message.Content.ToLower().Contains("nezuko make role"))
@@ -198,7 +191,7 @@ namespace WatchinWeebsBot
                 }
                 if (e.Message.Content.ToLower().Contains("!postthefunny"))
                 {
-                    await PostTheFunny();
+                    await PostTheFunny(e);
                 }
                 if (e.Message.Content.Contains("!restart"))
                 {

@@ -71,6 +71,17 @@ namespace WatchinWeebsBot
         async Task OnClientReady(ReadyEventArgs e)
         {
             Console.WriteLine("Bot is up!");
+            await RandomlyPostTheFunny();
+        }
+
+        async Task RandomlyPostTheFunny()
+        {
+            Random rnd = new Random();
+            string rndpath = Directory.GetFiles("memes").ElementAt(rnd.Next(1, Directory.GetFiles("memes").Length));
+            await Client.GetGuildAsync(691036170238427186).Result.GetChannel(729099294669275228).SendFileAsync(rndpath, "Here is your meme!");
+            await Task.Delay(3600000);
+            await RandomlyPostTheFunny();
+            //await Client.GetGuildAsync(691036170238427186).Result.GetChannel(729099294669275228).SendFileAsync(rndpath);
         }
 
         async Task PostTheFunny(MessageCreateEventArgs a)

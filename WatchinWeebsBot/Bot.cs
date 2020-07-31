@@ -193,7 +193,7 @@ namespace WatchinWeebsBot
                 {
                     try
                     {
-                        await e.Guild.GetMemberAsync(227462990293762049).Result.SendMessageAsync(e.Message.Author.Username + " said your name in " + e.Message.Channel.Name + " in " + e.Guild.Name);
+                        await e.Guild.GetMemberAsync(227462990293762049).Result.SendMessageAsync(e.Message.Author.Username + " said your name in " + e.Message.Channel.Name + " in " + e.Guild.Name+" He said: "+e.Message.Content);
                     }
                     catch (Exception ex)
                     {

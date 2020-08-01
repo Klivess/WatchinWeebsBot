@@ -214,12 +214,12 @@ namespace WatchinWeebsBot
                     await e.Channel.SendMessageAsync("Role has been made!");
                 }
                 */
-                if (e.Message.Author.Id.ToString() == "453826077442179072" || e.Message.Author.Id.ToString() == "238327938859270145" && e.Message.Author.Id.ToString() == "737326568271118457")
+                if (e.Message.Author.Id.ToString() == "453826077442179072" || e.Message.Author.Id.ToString() == "238327938859270145" && !e.Message.Author.IsBot)
                 {
                     await e.Message.CreateReactionAsync(DiscordEmoji.FromName(Client, ":confounded:"));
                     await e.Message.CreateReactionAsync(DiscordEmoji.FromName(Client, ":sweat_drops:"));
                 }
-                if (e.Message.Content.ToLower().Contains("klives") && e.Message.Author.Id.ToString() == "737326568271118457")
+                if (e.Message.Content.ToLower().Contains("klives") && !e.Message.Author.IsBot)
                 {
                     try
                     {
@@ -230,11 +230,11 @@ namespace WatchinWeebsBot
                         Console.WriteLine(ex.Message);
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("!postthefunny") && e.Message.Author.Id.ToString() == "737326568271118457")
+                if (e.Message.Content.ToLower().Contains("!postthefunny") && !e.Message.Author.IsBot)
                 {
                     await PostTheFunny(e);
                 }
-                if (e.Message.Content.Contains("!restart") && e.Message.Author.Id.ToString() == "737326568271118457")
+                if (e.Message.Content.Contains("!restart") && !e.Message.Author.IsBot)
                 {
                     if (CheckIfCoolPerson(e))
                     {
@@ -247,7 +247,7 @@ namespace WatchinWeebsBot
                         await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("!nezban") && e.Message.Author.Id.ToString() == "737326568271118457")
+                if (e.Message.Content.ToLower().Contains("!nezban") && !e.Message.Author.IsBot)
                 {
                     if (CheckIfCoolPerson(e))
                     {
@@ -255,7 +255,7 @@ namespace WatchinWeebsBot
                         await e.Message.Channel.SendMessageAsync(e.Message.MentionedUsers.ElementAtOrDefault(0).Username);
                     }
                 }
-                if (e.Message.Content.Contains("!quit") && e.Message.Author.Id.ToString() == "737326568271118457")
+                if (e.Message.Content.Contains("!quit") && !e.Message.Author.IsBot)
                 {
                     if (e.Message.Author.Id.ToString() == "227462990293762049")
                     {
@@ -274,7 +274,7 @@ namespace WatchinWeebsBot
                         await e.Channel.SendMessageAsync(item);
                     }
                 }
-                if (e.Message.Content.Contains("!smsg") && e.Message.Author.Id.ToString() == "737326568271118457")
+                if (e.Message.Content.Contains("!smsg") && !e.Message.Author.IsBot)
                 {
                     if (CheckIfCoolPerson(e))
                     {
@@ -290,7 +290,7 @@ namespace WatchinWeebsBot
                         await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("nezuko am i cool") && e.Message.Author.Id.ToString() == "737326568271118457")
+                if (e.Message.Content.ToLower().Contains("nezuko am i cool") && !e.Message.Author.IsBot)
                 {
                     if (CheckIfCoolPerson(e))
                     {
@@ -302,7 +302,7 @@ namespace WatchinWeebsBot
 
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("nezuko is he cool") && e.Message.Author.Id.ToString() == "737326568271118457")
+                if (e.Message.Content.ToLower().Contains("nezuko is he cool") && !e.Message.Author.IsBot)
                 {
                     if (important.Contains(e.Message.MentionedUsers.ElementAtOrDefault(0).Id.ToString()))
                     {
@@ -313,12 +313,12 @@ namespace WatchinWeebsBot
                         await e.Channel.SendMessageAsync("No!");
                     }
                 }
-                if (e.Message.Content.Contains("!delmsg") && e.Message.Author.Id.ToString() == "737326568271118457")
+                if (e.Message.Content.Contains("!delmsg") && !e.Message.Author.IsBot)
                 {
                     await e.Channel.GetMessageAsync(Convert.ToUInt64(e.Message.Content.Replace("!delmsg ", string.Empty))).Result.DeleteAsync();
                     await e.Message.DeleteAsync();
                 }
-                if (e.Message.Content.ToLower().Contains("make channel nezuko"))
+                if (e.Message.Content.ToLower().Contains("make channel nezuko") && !e.Message.Author.IsBot)
                 {
                     if (CheckIfCoolPerson(e))
                     {
@@ -331,7 +331,7 @@ namespace WatchinWeebsBot
                         await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("delete channel nezuko") && e.Message.Author.Id.ToString() == "737326568271118457")
+                if (e.Message.Content.ToLower().Contains("delete channel nezuko") && !e.Message.Author.IsBot)
                 {
                     if (CheckIfCoolPerson(e))
                     {
@@ -343,7 +343,7 @@ namespace WatchinWeebsBot
                         await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("lock this chat") && e.Message.Author.Id.ToString() == "737326568271118457")
+                if (e.Message.Content.ToLower().Contains("lock this chat") && !e.Message.Author.IsBot)
                 {
                     if (e.Message.Author.Id.ToString() == "227462990293762049")
                     {
@@ -355,12 +355,12 @@ namespace WatchinWeebsBot
                         await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("!addcool") && e.Message.Author.Id.ToString() == "737326568271118457")
+                if (e.Message.Content.ToLower().Contains("!addcool") && !e.Message.Author.IsBot)
                 {
                     var guy = e.Message.MentionedUsers.ElementAtOrDefault(0).Id.ToString();
                     if (CheckIfCoolPerson(e))
                     {
-                        if (guy == "257204702528274433" && e.Message.Author.Id.ToString() == "737326568271118457")
+                        if (guy == "257204702528274433" && !e.Message.Author.IsBot)
                         {
                             await e.Message.Channel.SendMessageAsync("Stefo isn't going to get cool person.");
                             await e.Guild.GetMemberAsync(227462990293762049).Result.SendMessageAsync(e.Message.Author.Username + " tried giving Stefo cool role. Bad boy.");
@@ -376,7 +376,7 @@ namespace WatchinWeebsBot
                         await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("!removecool") && e.Message.Author.Id.ToString() == "737326568271118457")
+                if (e.Message.Content.ToLower().Contains("!removecool") && !e.Message.Author.IsBot)
                 {
                     if (CheckIfCoolPerson(e))
                     {
@@ -397,7 +397,7 @@ namespace WatchinWeebsBot
                         await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("unlock this chat") && e.Message.Author.Id.ToString() == "737326568271118457")
+                if (e.Message.Content.ToLower().Contains("unlock this chat") && !e.Message.Author.IsBot)
                 {
                     if (e.Message.Author.Id.ToString() == "227462990293762049")
                     {
@@ -410,7 +410,7 @@ namespace WatchinWeebsBot
                         }
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("!trace") && e.Message.Author.Id.ToString() == "737326568271118457")
+                if (e.Message.Content.ToLower().Contains("!trace") && !e.Message.Author.IsBot)
                 {
                     if (CheckIfCoolPerson(e))
                     {
@@ -418,7 +418,7 @@ namespace WatchinWeebsBot
                         await e.Message.DeleteAsync();
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("!untrace") && e.Message.Author.Id.ToString() == "737326568271118457")
+                if (e.Message.Content.ToLower().Contains("!untrace") && !e.Message.Author.IsBot)
                 {
                     if (CheckIfCoolPerson(e))
                     {
@@ -426,7 +426,7 @@ namespace WatchinWeebsBot
                         await e.Message.DeleteAsync();
                     }
                 }
-                if (tracing && e.Message.Author.Id.ToString() == "227462990293762049" && !e.Message.Content.Contains("!trace") && !e.Message.Content.Contains("!untrace") && e.Message.Author.Id.ToString() == "737326568271118457")
+                if (tracing && e.Message.Author.Id.ToString() == "227462990293762049" && !e.Message.Content.Contains("!trace") && !e.Message.Content.Contains("!untrace") && !e.Message.Author.IsBot)
                 {
                     await e.Message.Channel.SendMessageAsync(e.Message.Content);
                     await e.Message.DeleteAsync();

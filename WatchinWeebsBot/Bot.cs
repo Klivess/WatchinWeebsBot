@@ -183,6 +183,7 @@ namespace WatchinWeebsBot
                     await e.Channel.SendMessageAsync("Updating my memes!");
                     await UpdateTheFunny(e);
                 }
+                /*
                 if (e.Message.Content.ToLower().Contains("!commands"))
                 {
                     await e.Channel.SendMessageAsync("Here are the commands: \n" +
@@ -206,6 +207,7 @@ namespace WatchinWeebsBot
                         "!untrace \n");
 
                 }
+                */
                 /*
                 if(e.Message.Content.ToLower().Contains("nezuko make role"))
                 {

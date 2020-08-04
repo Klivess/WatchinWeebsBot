@@ -184,31 +184,33 @@ namespace WatchinWeebsBot
                     await e.Channel.SendMessageAsync("Updating my memes!");
                     await UpdateTheFunny(e);
                 }
-                /*
                 if (e.Message.Content.ToLower().Contains("!commands"))
                 {
-                    await e.Channel.SendMessageAsync("Here are the commands: \n" +
-                        "hello nezuko \n" +
-                        "!nezukoupdateme \n" +
-                        "!postthefunny \n" +
-                        "!restart \n" +
-                        "!quit \n" +
-                        "!nezban \n" +
-                        "!showmeallcool \n" +
-                        "!smsg \n" +
-                        "nezuko am i cool \n" +
-                        "nezuko is he cool \n" +
-                        "!delmsg \n" +
-                        "make channel nezuko \n" +
-                        "delete channel nezuko \n" +
-                        "!addcool \n" +
-                        "!addcool \n" +
-                        "!removecool \n" +
-                        "!trace \n" +
-                        "!untrace \n");
+                    await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Fuck you.");
+/*                 
+await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the commands: \n" +
+    "hello nezuko \n" +
+    "!nezukoupdateme \n" +
+    "!postthefunny \n" +
+    "!restart \n" +
+    "!quit \n" +
+    "!nezban \n" +
+    "!showmeallcool \n" +
+    "!smsg \n" +
+    "nezuko am i cool \n" +
+    "nezuko is he cool \n" +
+    "!delmsg \n" +
+    "make channel nezuko \n" +
+    "delete channel nezuko \n" +
+    "!addcool \n" +
+    "!addcool \n" +
+    "!removecool \n" +
+    "!trace \n" +
+    "!untrace \n");
+*/
+await e.Channel.SendMessageAsync("Sent you the commands!");
 
                 }
-                */
                 /*
                 if(e.Message.Content.ToLower().Contains("nezuko make role"))
                 {
@@ -237,19 +239,26 @@ namespace WatchinWeebsBot
                 {
                     try
                     {
-                        //Member 227462990293762049; Klives!#4448 (Klives!)
-                        var person = e.Message.Channel.Guild.GetMemberAsync(e.Message.MentionedUsers.ElementAtOrDefault(0).Id);
-                        var id = e.Message.Content.Replace("!giverole", string.Empty).Replace("Member", string.Empty)
-                            .Replace(e.Message.MentionedUsers.ElementAtOrDefault(0).Id + ";", string.Empty)
-                            .Replace(person.Result.Mention.Replace("@", string.Empty), string.Empty)
-                            .Replace("(", string.Empty).Replace(")", string.Empty)
-                            .Replace(person.Result.DisplayName, string.Empty)
-                            .Replace(">",string.Empty).Replace("<",string.Empty).Replace("@!",string.Empty)
-                            .Replace(person.Result.Id.ToString(), string.Empty).Trim();
-                        Console.WriteLine(id);
-                        await person.Result.GrantRoleAsync(e.Guild.GetRole(Convert.ToUInt64(id)));
-                        Console.WriteLine(e.Message.MentionedUsers.ElementAtOrDefault(0));
-                        await e.Message.Channel.SendMessageAsync("Granted role!");
+                        if (CheckIfCoolPerson(e))
+                        {
+                            //Member 227462990293762049; Klives!#4448 (Klives!)
+                            var person = e.Message.Channel.Guild.GetMemberAsync(e.Message.MentionedUsers.ElementAtOrDefault(0).Id);
+                            var id = e.Message.Content.Replace("!giverole", string.Empty).Replace("Member", string.Empty)
+                                .Replace(e.Message.MentionedUsers.ElementAtOrDefault(0).Id + ";", string.Empty)
+                                .Replace(person.Result.Mention.Replace("@", string.Empty), string.Empty)
+                                .Replace("(", string.Empty).Replace(")", string.Empty)
+                                .Replace(person.Result.DisplayName, string.Empty)
+                                .Replace(">", string.Empty).Replace("<", string.Empty).Replace("@!", string.Empty)
+                                .Replace(person.Result.Id.ToString(), string.Empty).Trim();
+                            Console.WriteLine(id);
+                            await person.Result.GrantRoleAsync(e.Guild.GetRole(Convert.ToUInt64(id)));
+                            Console.WriteLine(e.Message.MentionedUsers.ElementAtOrDefault(0));
+                            await e.Message.Channel.SendMessageAsync("Granted role!");
+                        }
+                        else
+                        {
+                            await e.Message.Channel.SendMessageAsync("You must be cool to use this!");
+                        }
                     }
                     catch (Exception ex)
                     {
@@ -261,19 +270,25 @@ namespace WatchinWeebsBot
                 {
                     try
                     {
-                        //Member 227462990293762049; Klives!#4448 (Klives!)
-                        var person = e.Message.Channel.Guild.GetMemberAsync(e.Message.MentionedUsers.ElementAtOrDefault(0).Id);
-                        var id = e.Message.Content.Replace("!removerole", string.Empty).Replace("Member", string.Empty)
-                            .Replace(e.Message.MentionedUsers.ElementAtOrDefault(0).Id + ";", string.Empty)
-                            .Replace(person.Result.Mention.Replace("@", string.Empty), string.Empty)
-                            .Replace("(", string.Empty).Replace(")", string.Empty)
-                            .Replace(person.Result.DisplayName, string.Empty)
-                            .Replace(">", string.Empty).Replace("<", string.Empty).Replace("@!", string.Empty)
-                            .Replace(person.Result.Id.ToString(), string.Empty).Trim();
-                        Console.WriteLine(id);
-                        await person.Result.RevokeRoleAsync(e.Guild.GetRole(Convert.ToUInt64(id)));
-                        Console.WriteLine(e.Message.MentionedUsers.ElementAtOrDefault(0));
-                        await e.Message.Channel.SendMessageAsync("Revoked role!");
+                        if (CheckIfCoolPerson(e))
+                        {
+                            var person = e.Message.Channel.Guild.GetMemberAsync(e.Message.MentionedUsers.ElementAtOrDefault(0).Id);
+                            var id = e.Message.Content.Replace("!removerole", string.Empty).Replace("Member", string.Empty)
+                                .Replace(e.Message.MentionedUsers.ElementAtOrDefault(0).Id + ";", string.Empty)
+                                .Replace(person.Result.Mention.Replace("@", string.Empty), string.Empty)
+                                .Replace("(", string.Empty).Replace(")", string.Empty)
+                                .Replace(person.Result.DisplayName, string.Empty)
+                                .Replace(">", string.Empty).Replace("<", string.Empty).Replace("@!", string.Empty)
+                                .Replace(person.Result.Id.ToString(), string.Empty).Trim();
+                            Console.WriteLine(id);
+                            await person.Result.RevokeRoleAsync(e.Guild.GetRole(Convert.ToUInt64(id)));
+                            Console.WriteLine(e.Message.MentionedUsers.ElementAtOrDefault(0));
+                            await e.Message.Channel.SendMessageAsync("Revoked role!");
+                        }
+                        else
+                        {
+                            await e.Message.Channel.SendMessageAsync("You must be cool to use this!");
+                        }
                     }
                     catch (Exception ex)
                     {

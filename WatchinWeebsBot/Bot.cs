@@ -101,6 +101,15 @@ namespace WatchinWeebsBot
             //await Client.GetGuildAsync(691036170238427186).Result.GetChannel(729099294669275228).SendFileAsync(rndpath);
         }
 
+        async Task PostAllTheFunny(MessageCreateEventArgs a)
+        {
+            foreach(var item in Directory.GetFiles("memes"))
+            {
+                await a.Guild.GetMemberAsync(a.Author.Id).Result.SendFileAsync(item);
+                await Task.Delay(3000);
+            }
+        }
+
         async Task UpdateTheFunny(MessageCreateEventArgs a)
         {
             // C:\Users\Server Computer\Desktop\watchin bot\WatchinWeebsBot\WatchinWeebsBot\bin\Debug\netcoreapp3.1\memes
@@ -148,6 +157,28 @@ namespace WatchinWeebsBot
             }
         }
 
+        /*                 
+await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the commands: \n" +
+    "hello nezuko \n" +
+    "!nezukoupdateme \n" +
+    "!postthefunny \n" +
+    "!restart \n" +
+    "!quit \n" +
+    "!nezban \n" +
+    "!showmeallcool \n" +
+    "!smsg \n" +
+    "nezuko am i cool \n" +
+    "nezuko is he cool \n" +
+    "!delmsg \n" +
+    "make channel nezuko \n" +
+    "delete channel nezuko \n" +
+    "!addcool \n" +
+    "!addcool \n" +
+    "!removecool \n" +
+    "!trace \n" +
+    "!untrace \n");
+*/
+
         public bool tracing = false;
         public static string[] basemain = { "227462990293762049", "239647961502580737", "453826077442179072" };
         public List<string> important = new List<string>(basemain);
@@ -187,29 +218,10 @@ namespace WatchinWeebsBot
                 if (e.Message.Content.ToLower().Contains("!commands"))
                 {
                     await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Fuck you.");
-/*                 
-await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the commands: \n" +
-    "hello nezuko \n" +
-    "!nezukoupdateme \n" +
-    "!postthefunny \n" +
-    "!restart \n" +
-    "!quit \n" +
-    "!nezban \n" +
-    "!showmeallcool \n" +
-    "!smsg \n" +
-    "nezuko am i cool \n" +
-    "nezuko is he cool \n" +
-    "!delmsg \n" +
-    "make channel nezuko \n" +
-    "delete channel nezuko \n" +
-    "!addcool \n" +
-    "!addcool \n" +
-    "!removecool \n" +
-    "!trace \n" +
-    "!untrace \n");
-*/
-await e.Channel.SendMessageAsync("Sent you the commands!");
-
+                }
+                if (e.Message.Content.ToLower().Contains("!postallofthefunny"))
+                {
+                    await PostAllTheFunny(e);
                 }
                 /*
                 if(e.Message.Content.ToLower().Contains("nezuko make role"))

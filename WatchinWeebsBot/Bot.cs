@@ -229,6 +229,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                 }
                 if (e.Message.Content.ToLower().Contains("!postallofthefunny"))
                 {
+                    Console.WriteLine("Someone wants all of the memes!");
                     await PostAllTheFunny(e);
                 }
                 /*

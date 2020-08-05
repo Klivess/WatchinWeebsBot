@@ -103,10 +103,18 @@ namespace WatchinWeebsBot
 
         async Task PostAllTheFunny(MessageCreateEventArgs a)
         {
-            foreach(var item in Directory.GetFiles("memes"))
+            try
             {
-                await a.Guild.GetMemberAsync(a.Author.Id).Result.SendFileAsync(item);
-                await Task.Delay(3000);
+                await a.Channel.SendMessageAsync("I am sending " + Directory.GetFiles("memes").Length+" memes to you!");
+                foreach (string item in Directory.GetFiles("memes"))
+                {
+                    await a.Guild.GetMemberAsync(a.Author.Id).Result.SendFileAsync(item);
+                    await Task.Delay(3000);
+                }
+            }
+            catch (Exception ex)
+            {
+                await a.Channel.SendMessageAsync(ex.Message);
             }
         }
 

@@ -90,15 +90,24 @@ namespace WatchinWeebsBot
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
+
             }
         }
 
         async Task PostTheFunny(MessageCreateEventArgs a)
         {
-            Random rnd = new Random();
-            string rndpath = Directory.GetFiles("memes").ElementAt(rnd.Next(1, Directory.GetFiles("memes").Length));
-            await a.Channel.SendFileAsync(rndpath, "Here is your meme!");
-            //await Client.GetGuildAsync(691036170238427186).Result.GetChannel(729099294669275228).SendFileAsync(rndpath);
+            try
+            {
+                Random rnd = new Random();
+                string rndpath = Directory.GetFiles("memes").ElementAt(rnd.Next(1, Directory.GetFiles("memes").Length));
+                await a.Channel.SendFileAsync(rndpath, "Here is your meme!");
+                //await Client.GetGuildAsync(691036170238427186).Result.GetChannel(729099294669275228).SendFileAsync(rndpath);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                await PostTheFunny(a);
+            }
         }
 
         async Task PostAllTheFunny(MessageCreateEventArgs a)
@@ -115,6 +124,7 @@ namespace WatchinWeebsBot
             catch (Exception ex)
             {
                 await a.Channel.SendMessageAsync(ex.Message);
+                await PostAllTheFunny(a);
             }
         }
 

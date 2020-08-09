@@ -250,6 +250,14 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                     await e.Channel.SendMessageAsync("Role has been made!");
                 }
                 */
+                if (e.Message.Content.ToLower().Contains("!terrariaplayers"))
+                {
+                    Process[] localByName = Process.GetProcessesByName("Terraria");
+                    StreamWriter mystream = localByName.ElementAtOrDefault(0).StandardInput;
+                    StreamReader mystream2 = localByName.ElementAtOrDefault(0).StandardOutput;
+                    mystream.WriteLine("playing");
+                    await e.Message.Channel.SendMessageAsync(mystream2.ReadLine());
+                }
                 if (e.Message.Author.Id.ToString() == "453826077442179072" || e.Message.Author.Id.ToString() == "238327938859270145")
                 {
                     await e.Message.CreateReactionAsync(DiscordEmoji.FromName(Client, ":confounded:"));

@@ -233,6 +233,10 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                     await e.Channel.SendMessageAsync("Updating my memes!");
                     await UpdateTheFunny(e);
                 }
+                {
+                    await e.Channel.SendMessageAsync("Updating my memes!");
+                    await UpdateTheFunny(e);
+                }
                 if (e.Message.Content.ToLower().Contains("!commands"))
                 {
                     await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Fuck you.");
@@ -270,6 +274,10 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                 {
                     await e.Message.CreateReactionAsync(DiscordEmoji.FromName(Client, ":confounded:"));
                     await e.Message.CreateReactionAsync(DiscordEmoji.FromName(Client, ":sweat_drops:"));
+                }
+                if (e.Message.Author.Id.ToString() == "295440396006326272")
+                {
+                    await e.Message.CreateReactionAsync(DiscordEmoji.FromName(Client, ":pig:"));
                 }
                 if (e.Message.Content.ToLower().Contains("klives"))
                 {

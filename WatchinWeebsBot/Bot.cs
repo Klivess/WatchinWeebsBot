@@ -277,7 +277,11 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                 }
                 if (e.Message.Author.Id.ToString() == "295440396006326272")
                 {
-                    await e.Message.CreateReactionAsync(DiscordEmoji.FromName(Client, ":pig:"));
+                    await e.Message.CreateReactionAsync(DiscordEmoji.FromUnicode(Client, "🐷"));
+                }
+                if (e.Message.Content.ToLower().Contains("lmao") || e.Message.Content.ToLower().Contains("lmfao"))
+                {
+                    await e.Message.Channel.SendMessageAsync("Uh-huh sure you are. You expect ME to believe that you laughed so hard your fucking ass fell off? You expect me to believe an action that only involves you exhaling, made your ASS and area that has an undefined border, mind you. Fell off? from exhaling? Yea, try harder next time. Maybe they’ll understand your communist nazi socialist propaganda.");
                 }
                 if (e.Message.Content.ToLower().Contains("klives"))
                 {

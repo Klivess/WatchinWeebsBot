@@ -235,10 +235,6 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                     await UpdateTheFunny(e);
                 }
                 */
-                {
-                    await e.Channel.SendMessageAsync("Updating my memes!");
-                    await UpdateTheFunny(e);
-                }
                 if (e.Message.Content.ToLower().Contains("!commands"))
                 {
                     await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Fuck you.");

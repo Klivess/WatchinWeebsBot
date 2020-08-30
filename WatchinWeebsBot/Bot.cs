@@ -228,11 +228,13 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                 {
                     await e.Channel.SendMessageAsync("Hello!");
                 }
+                /*
                 if (e.Message.Content.ToLower().Contains("!nezukoupdatememe") && CheckIfCoolPerson(e) && e.Message.Author.Id.ToString() != "737326568271118457")
                 {
                     await e.Channel.SendMessageAsync("Updating my memes!");
                     await UpdateTheFunny(e);
                 }
+                */
                 {
                     await e.Channel.SendMessageAsync("Updating my memes!");
                     await UpdateTheFunny(e);
@@ -245,6 +247,36 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                 {
                     Console.WriteLine("Someone wants all of the memes!");
                     await PostAllTheFunny(e);
+                }
+                if (e.Message.Content.ToLower().Contains("nezleave") && e.Message.Author.Id.ToString() == "227462990293762049")
+                {
+                    if(e.Message.Content.ToLower().Replace("nezleave", string.Empty) == "")
+                    {
+                        await e.Channel.SendMessageAsync("I am leaving now, cya!");
+                        await e.Guild.LeaveAsync();
+                    }
+                    else
+                    {
+                        bool foundone = false;
+                        foreach(var item in Client.Guilds)
+                        {
+                            if(item.Value.ToString().Contains(e.Message.Content.ToLower().Replace("nezleave", string.Empty)))
+                            {
+                                var guild = Client.GetGuildAsync(item.Key);
+                                await e.Channel.SendMessageAsync("I left "+guild.Result.Name+"!");
+                                await guild.Result.LeaveAsync();
+                                foundone = true;
+                            }
+                        }
+                        if (foundone != true)
+                        {
+                            await e.Channel.SendMessageAsync("Couldn't find that discord!");
+                        }
+                    }
+                }
+                if (e.Message.Content.ToLower().Contains("nezping"))
+                {
+                    await e.Channel.SendMessageAsync("Ping: "+Client.Ping+"ms");
                 }
                 /*
                 if(e.Message.Content.ToLower().Contains("nezuko make role"))

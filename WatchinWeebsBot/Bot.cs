@@ -311,11 +311,11 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                 {
                     await e.Message.Channel.SendMessageAsync("Uh-huh sure you are. You expect ME to believe that you laughed so hard your fucking ass fell off? You expect me to believe an action that only involves you exhaling, made your ASS and area that has an undefined border, mind you. Fell off? from exhaling? Yea, try harder next time. Maybe they’ll understand your communist nazi socialist propaganda.");
                 }
-                if (e.Message.Content.ToLower().Contains("klives"))
+                if (e.Message.Content.ToLower().Replace(" ", string.Empty).Contains("klives"))
                 {
                     try
                     {
-                        await e.Guild.GetMemberAsync(227462990293762049).Result.SendMessageAsync(e.Message.Author.Username + " said your name in " + e.Message.Channel.Name + " in " + e.Guild.Name);
+                        await e.Guild.GetMemberAsync(227462990293762049).Result.SendMessageAsync(e.Message.Author.Username + " said your name in " + e.Message.Channel.Name + " in " + e.Guild.Name +"| "+e.Message.Content);
                     }
                     catch (Exception ex)
                     {

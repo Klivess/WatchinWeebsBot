@@ -211,16 +211,6 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
             //return a.Message.Author.Id.ToString() == "227462990293762049"|| a.Message.Author.Id.ToString() == "239647961502580737";
         }
 
-        bool cansendcommands = true;
-        private bool checkifcould(MessageCreateEventArgs a)
-        {
-            // Elmo 239647961502580737
-            // Klives 227462990293762049
-            // Cow 295440396006326272
-            return cansendcommands;
-            //return a.Message.Author.Id.ToString() == "227462990293762049"|| a.Message.Author.Id.ToString() == "239647961502580737";
-        }
-
         async Task Client_MessageSent(MessageCreateEventArgs e)
         {
             try
@@ -234,7 +224,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                 }
             }
             */
-                if (e.Message.Content.ToLower().Contains("hello nezuko") && e.Message.Author.Id.ToString() != "737326568271118457" && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("hello nezuko") && e.Message.Author.Id.ToString() != "737326568271118457")
                 {
                     await e.Channel.SendMessageAsync("Hello!");
                 }
@@ -245,16 +235,16 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                     await UpdateTheFunny(e);
                 }
                 */
-                if (e.Message.Content.ToLower().Contains("!commands") && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("!commands"))
                 {
                     await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Fuck you.");
                 }
-                if (e.Message.Content.ToLower().Contains("!postallofthefunny") && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("!postallofthefunny"))
                 {
                     Console.WriteLine("Someone wants all of the memes!");
                     await PostAllTheFunny(e);
                 }
-                if (e.Message.Content.ToLower().Contains("nezleave") && e.Message.Author.Id.ToString() == "227462990293762049" && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("nezleave") && e.Message.Author.Id.ToString() == "227462990293762049")
                 {
                     if(e.Message.Content.ToLower().Replace("nezleave", string.Empty) == "")
                     {
@@ -280,7 +270,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                         }
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("nezping") && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("nezping"))
                 {
                     await e.Channel.SendMessageAsync("Ping: "+Client.Ping+"ms");
                 }
@@ -292,7 +282,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                     await e.Channel.SendMessageAsync("Role has been made!");
                 }
                 */
-                if (e.Message.Content.ToLower().Contains("!terrariaplayers") && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("!terrariaplayers"))
                 {
                     Console.WriteLine("Someone wants terraria players!");
                     try
@@ -308,30 +298,18 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                         await e.Message.Channel.SendMessageAsync(ex.Message);
                     }
                 }
-                if (e.Message.Author.Id.ToString() == "453826077442179072" || e.Message.Author.Id.ToString() == "238327938859270145" && checkifcould(e))
+                if (e.Message.Author.Id.ToString() == "453826077442179072" || e.Message.Author.Id.ToString() == "238327938859270145")
                 {
                     await e.Message.CreateReactionAsync(DiscordEmoji.FromName(Client, ":confounded:"));
                     await e.Message.CreateReactionAsync(DiscordEmoji.FromName(Client, ":sweat_drops:"));
                 }
-                if (e.Message.Author.Id.ToString() == "295440396006326272" && checkifcould(e))
+                if (e.Message.Author.Id.ToString() == "295440396006326272")
                 {
                     await e.Message.CreateReactionAsync(DiscordEmoji.FromUnicode(Client, "🐷"));
                 }
-                bool enablelmao = false;
-                if (e.Message.Content.ToLower().Contains("!enablelmao")&&CheckIfCoolPerson(e) && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("lmao") || e.Message.Content.ToLower().Contains("lmfao"))
                 {
-                    enablelmao = true;
-                }
-                if (e.Message.Content.ToLower().Contains("!disablelmao") && CheckIfCoolPerson(e) && checkifcould(e))
-                {
-                    enablelmao = false;
-                }
-                if (e.Message.Content.ToLower().Contains("lmao") || e.Message.Content.ToLower().Contains("lmfao") && checkifcould(e))
-                {
-                    if (enablelmao)
-                    {
-                        await e.Message.Channel.SendMessageAsync("Uh-huh sure you are. You expect ME to believe that you laughed so hard your fucking ass fell off? You expect me to believe an action that only involves you exhaling, made your ASS and area that has an undefined border, mind you. Fell off? from exhaling? Yea, try harder next time. Maybe they’ll understand your communist nazi socialist propaganda.");
-                    }
+                    await e.Message.Channel.SendMessageAsync("Uh-huh sure you are. You expect ME to believe that you laughed so hard your fucking ass fell off? You expect me to believe an action that only involves you exhaling, made your ASS and area that has an undefined border, mind you. Fell off? from exhaling? Yea, try harder next time. Maybe they’ll understand your communist nazi socialist propaganda.");
                 }
                 if (e.Message.Content.ToLower().Replace(" ", string.Empty).Contains("klives"))
                 {
@@ -344,7 +322,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                         Console.WriteLine(ex.Message);
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("!giverole") && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("!giverole"))
                 {
                     try
                     {
@@ -375,7 +353,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                         await e.Message.Channel.SendMessageAsync(ex.Message);
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("!removerole") && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("!removerole"))
                 {
                     try
                     {
@@ -405,7 +383,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                         await e.Message.Channel.SendMessageAsync(ex.Message);
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("!postthefunny") && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("!postthefunny"))
                 {
                     await PostTheFunny(e);
                 }
@@ -422,7 +400,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                         await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("!nezban") && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("!nezban"))
                 {
                     if (CheckIfCoolPerson(e))
                     {
@@ -442,14 +420,14 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                         await e.Message.Channel.SendMessageAsync("Only Klives can execute this!.");
                     }
                 }
-                if (e.Message.Content.Contains("!showmeallcool") && checkifcould(e))
+                if (e.Message.Content.Contains("!showmeallcool"))
                 {
                     foreach(string item in important)
                     {
                         await e.Channel.SendMessageAsync(item);
                     }
                 }
-                if (e.Message.Content.Contains("!smsg") && checkifcould(e))
+                if (e.Message.Content.Contains("!smsg"))
                 {
                     if (CheckIfCoolPerson(e))
                     {
@@ -465,7 +443,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                         await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("nezuko am i cool") && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("nezuko am i cool") )
                 {
                     if (CheckIfCoolPerson(e))
                     {
@@ -477,7 +455,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
 
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("nezuko is he cool") && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("nezuko is he cool"))
                 {
                     if (important.Contains(e.Message.MentionedUsers.ElementAtOrDefault(0).Id.ToString()))
                     {
@@ -488,12 +466,12 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                         await e.Channel.SendMessageAsync("No!");
                     }
                 }
-                if (e.Message.Content.Contains("!delmsg") && checkifcould(e))
+                if (e.Message.Content.Contains("!delmsg"))
                 {
                     await e.Channel.GetMessageAsync(Convert.ToUInt64(e.Message.Content.Replace("!delmsg ", string.Empty))).Result.DeleteAsync();
                     await e.Message.DeleteAsync();
                 }
-                if (e.Message.Content.ToLower().Contains("make channel nezuko") && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("make channel nezuko"))
                 {
                     if (CheckIfCoolPerson(e))
                     {
@@ -506,7 +484,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                         await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("delete channel nezuko") && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("delete channel nezuko"))
                 {
                     if (CheckIfCoolPerson(e))
                     {
@@ -518,7 +496,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                         await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("lock this chat") && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("lock this chat") )
                 {
                     if (e.Message.Author.Id.ToString() == "227462990293762049")
                     {
@@ -530,7 +508,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                         await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("!addcool") && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("!addcool") )
                 {
                     var guy = e.Message.MentionedUsers.ElementAtOrDefault(0).Id.ToString();
                     if (CheckIfCoolPerson(e))
@@ -551,7 +529,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                         await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("!removecool") && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("!removecool"))
                 {
                     if (CheckIfCoolPerson(e))
                     {
@@ -572,7 +550,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                         await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("unlock this chat") && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("unlock this chat") )
                 {
                     if (e.Message.Author.Id.ToString() == "227462990293762049")
                     {
@@ -585,7 +563,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                         }
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("!trace") && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("!trace"))
                 {
                     if (CheckIfCoolPerson(e))
                     {
@@ -593,7 +571,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                         await e.Message.DeleteAsync();
                     }
                 }
-                if (e.Message.Content.ToLower().Contains("!untrace") && checkifcould(e))
+                if (e.Message.Content.ToLower().Contains("!untrace"))
                 {
                     if (CheckIfCoolPerson(e))
                     {
@@ -601,18 +579,10 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                         await e.Message.DeleteAsync();
                     }
                 }
-                if (tracing && e.Message.Author.Id.ToString() == "227462990293762049" && !e.Message.Content.Contains("!trace") && !e.Message.Content.Contains("!untrace") && checkifcould(e))
+                if (tracing && e.Message.Author.Id.ToString() == "227462990293762049" && !e.Message.Content.Contains("!trace") && !e.Message.Content.Contains("!untrace") )
                 {
                     await e.Message.Channel.SendMessageAsync(e.Message.Content);
                     await e.Message.DeleteAsync();
-                }
-                if (e.Message.Content.ToLower().Contains("!nomore") && CheckIfCoolPerson(e))
-                {
-                    cansendcommands = false;
-                }
-                if (e.Message.Content.ToLower().Contains("!morepls") && CheckIfCoolPerson(e))
-                {
-                    cansendcommands = true;
                 }
             }
             catch(Exception ex)

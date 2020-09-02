@@ -106,7 +106,6 @@ namespace WatchinWeebsBot
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                await PostTheFunny(a);
             }
         }
 
@@ -124,7 +123,6 @@ namespace WatchinWeebsBot
             catch (Exception ex)
             {
                 await a.Channel.SendMessageAsync(ex.Message);
-                await PostAllTheFunny(a);
             }
         }
 

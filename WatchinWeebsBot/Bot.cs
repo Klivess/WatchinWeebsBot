@@ -15,18 +15,19 @@ namespace WatchinWeebsBot
 {
     class Bot
     {
-
+        List<DiscordChannel> dc = new List<DiscordChannel>();
         public DiscordClient Client { get; private set; }
 
         public InteractivityExtension Interactivity { get; private set; }
 
         public CommandsNextExtension Commands { get; private set; }
 
+        //bruh
         List<string> bruh;
 
         public async Task RunAsync()
         {
-
+            //init
             ConfigJson cj = new ConfigJson();
             var config = new DiscordConfiguration
             {
@@ -72,13 +73,14 @@ namespace WatchinWeebsBot
         async Task OnClientReady(ReadyEventArgs e)
         {
             Console.WriteLine("Bot is up!");
-            await RandomlyPostTheFunny();
         }
 
         async Task RandomlyPostTheFunny()
         {
             try
             {
+
+                // doesn't work
                 Console.WriteLine("posting the funny");
                 Random rnd = new Random();
                 string rndpath = Directory.GetFiles("memes").ElementAt(rnd.Next(1, Directory.GetFiles("memes").Length));
@@ -94,13 +96,14 @@ namespace WatchinWeebsBot
             }
         }
 
-        async Task PostTheFunny(MessageCreateEventArgs a)
+        async Task PostTheFunny(DiscordChannel a)
         {
             try
             {
+                // meme command
                 Random rnd = new Random();
                 string rndpath = Directory.GetFiles("memes").ElementAt(rnd.Next(1, Directory.GetFiles("memes").Length));
-                await a.Channel.SendFileAsync(rndpath, "Here is your meme!");
+                await a.SendFileAsync(rndpath, "Here is your meme!");
                 //await Client.GetGuildAsync(691036170238427186).Result.GetChannel(729099294669275228).SendFileAsync(rndpath);
             }
             catch (Exception e)
@@ -213,26 +216,11 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
         {
             try
             {
-                /*
-            foreach(string b in bruh)
-            {
-                if (e.Channel.Id.ToString() == b && e.Message.Author.Id.ToString() != "227462990293762049")
-                {
-                    await e.Message.DeleteAsync();
-                }
-            }
-            */
+                // Help me Daddy Doofenshmirtz
                 if (e.Message.Content.ToLower().Contains("hello nezuko") && e.Message.Author.Id.ToString() != "737326568271118457")
                 {
                     await e.Channel.SendMessageAsync("Hello!");
                 }
-                /*
-                if (e.Message.Content.ToLower().Contains("!nezukoupdatememe") && CheckIfCoolPerson(e) && e.Message.Author.Id.ToString() != "737326568271118457")
-                {
-                    await e.Channel.SendMessageAsync("Updating my memes!");
-                    await UpdateTheFunny(e);
-                }
-                */
                 if (e.Message.Content.ToLower().Contains("!commands"))
                 {
                     await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Fuck you.");
@@ -241,6 +229,16 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                 {
                     Console.WriteLine("Someone wants all of the memes!");
                     await PostAllTheFunny(e);
+                }
+                if (e.Message.Content.ToLower().Contains("!amongus"))
+                {
+                    await e.Message.Channel.Guild.GetMemberAsync(e.Author.Id).Result.GrantRoleAsync(e.Guild.GetRole(761137011468926996));
+                    await e.Message.RespondAsync("Gave you the Among Us role!");
+                }
+                if (e.Message.Content.ToLower().Contains("!destiny"))
+                {
+                    await e.Message.Channel.Guild.GetMemberAsync(e.Author.Id).Result.GrantRoleAsync(e.Guild.GetRole(746149388501647410));
+                    await e.Message.RespondAsync("Gave you the Destiny role!");
                 }
                 if (e.Message.Content.ToLower().Contains("nezleave") && e.Message.Author.Id.ToString() == "227462990293762049")
                 {
@@ -272,19 +270,12 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                 {
                     await e.Channel.SendMessageAsync("Ping: "+Client.Ping+"ms");
                 }
-                /*
-                if(e.Message.Content.ToLower().Contains("nezuko make role"))
-                {
-                    string name = e.Message.Content.Replace("nezuko make role", string.Empty);
-                    var role = e.Guild.CreateRoleAsync(name, null, DiscordColor.Blurple);
-                    await e.Channel.SendMessageAsync("Role has been made!");
-                }
-                */
                 if (e.Message.Content.ToLower().Contains("!terrariaplayers"))
                 {
                     Console.WriteLine("Someone wants terraria players!");
                     try
                     {
+                        // this is fucking terrible code...
                         Process[] localByName = Process.GetProcessesByName("Terraria");
                         StreamWriter mystream = localByName.ElementAtOrDefault(0).StandardInput;
                         StreamReader mystream2 = localByName.ElementAtOrDefault(0).StandardOutput;
@@ -304,6 +295,10 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                 if (e.Message.Author.Id.ToString() == "295440396006326272")
                 {
                     await e.Message.CreateReactionAsync(DiscordEmoji.FromUnicode(Client, "🐷"));
+                }
+                if (e.Message.Author.Id.ToString() == "280355519728975872")
+                {
+                    await e.Message.CreateReactionAsync(DiscordEmoji.FromName(Client, ":hamburger:"));
                 }
                 if (e.Message.Content.ToLower().Contains("lmao") || e.Message.Content.ToLower().Contains("lmfao"))
                 {
@@ -326,6 +321,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                     {
                         if (CheckIfCoolPerson(e))
                         {
+                            // this is fucking terrible code...
                             //Member 227462990293762049; Klives!#4448 (Klives!)
                             var person = e.Message.Channel.Guild.GetMemberAsync(e.Message.MentionedUsers.ElementAtOrDefault(0).Id);
                             var id = e.Message.Content.Replace("!giverole", string.Empty).Replace("Member", string.Empty)
@@ -357,6 +353,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                     {
                         if (CheckIfCoolPerson(e))
                         {
+                            // this is fucking terrible code...
                             var person = e.Message.Channel.Guild.GetMemberAsync(e.Message.MentionedUsers.ElementAtOrDefault(0).Id);
                             var id = e.Message.Content.Replace("!removerole", string.Empty).Replace("Member", string.Empty)
                                 .Replace(e.Message.MentionedUsers.ElementAtOrDefault(0).Id + ";", string.Empty)
@@ -383,7 +380,7 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                 }
                 if (e.Message.Content.ToLower().Contains("!postthefunny"))
                 {
-                    await PostTheFunny(e);
+                    await PostTheFunny(e.Channel);
                 }
                 if (e.Message.Content.Contains("!restart"))
                 {
@@ -576,6 +573,23 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                         tracing = true;
                         await e.Message.DeleteAsync();
                     }
+                }
+                if (e.Message.Content.ToLower().Contains("!hourlymeme"))
+                {
+                    if (CheckIfCoolPerson(e))
+                    {
+                        dc.Add(e.MentionedChannels.ElementAt(0));
+                        await e.Message.RespondAsync("Added: " + e.MentionedChannels.ElementAt(0).Name + " to the list!");
+                    }
+                }
+                if (e.Message.Content.ToLower().Contains("!memelist"))
+                {
+                    string str = "";
+                    foreach(var item in dc)
+                    {
+                        str = str + item.Name + Environment.NewLine;
+                    }
+                    await e.Message.RespondAsync("Channels currently being memed:" + Environment.NewLine+str);
                 }
                 if (tracing && e.Message.Author.Id.ToString() == "227462990293762049" && !e.Message.Content.Contains("!trace") && !e.Message.Content.Contains("!untrace") )
                 {

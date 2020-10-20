@@ -1,0 +1,13 @@
+{
+  "Token": "<token>",
+  "ImportantMemberIds": {
+    "Elmo": 1234,
+    "Klives": 2345,
+    "Cow": 3456
+  },
+  "RoleIds": {
+    "AmongUs": 1234,
+    "Destiny": 2345
+  },
+  "SomeRandomUserId": 1234
+}

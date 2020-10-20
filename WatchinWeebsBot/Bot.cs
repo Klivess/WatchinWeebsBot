@@ -24,21 +24,22 @@ namespace WatchinWeebsBot
         public CommandsNextExtension Commands { get; private set; }
 
         
-        public ConfigJson Config { get; private set; }
+        public ConfigJson Config { get; set; }
 
-        private readonly List<DiscordChannel> HourlyMemesChannelList = new List<DiscordChannel>();
-
+        public InMemoryStorage Storage { get; set; }
         //bruh
-        private readonly List<string> LockedChannelsIds;
+        //private readonly List<string> LockedChannelsIds;
 
         public async Task RunAsync()
         {
             //init
             string jsonString = File.ReadAllText("config.json");
             Config = JsonSerializer.Deserialize<ConfigJson>(jsonString);
+            Storage = new InMemoryStorage();
 
             IServiceProvider services = new ServiceCollection()
                 .AddSingleton(typeof(ConfigJson), Config)
+                .AddSingleton(typeof(InMemoryStorage), Storage)
                 .BuildServiceProvider();
 
             var config = new DiscordConfiguration
@@ -71,9 +72,9 @@ namespace WatchinWeebsBot
 
             Client.MessageCreated += Client_MessageSent;
 
-            Client.MessageDeleted += Client_MessageDeleted;
+            //Client.MessageDeleted += Client_MessageDeleted;
 
-            Client.GuildBanRemoved += Client_BanRemoved;
+            //Client.GuildBanRemoved += Client_BanRemoved;
 
             Client.GuildMemberRemoved += Client_MemberLeave;
 
@@ -85,10 +86,17 @@ namespace WatchinWeebsBot
 
         async Task OnClientReady(ReadyEventArgs e)
         {
-            Console.WriteLine("Bot is up!");
+            // Hey look, I actually added new functionality.
+            await e.Client.UpdateStatusAsync(new DiscordActivity("all the weebs", ActivityType.Watching));
+            Client.DebugLogger.LogMessage(
+                DSharpPlus.LogLevel.Info,
+                "Bot",
+                "Bot is up!",
+                DateTime.Now);
         }
 
         // TODO: Debug this
+        // ??? Why the heck is this calling itself?
         async Task RandomlyPostTheFunny()
         {
             try
@@ -108,61 +116,6 @@ namespace WatchinWeebsBot
                 Console.WriteLine(ex.Message);
 
             }
-        }
-
-        async Task PostTheFunny(DiscordChannel a)
-        {
-            try
-            {
-                // meme command
-                Random rnd = new Random();
-                string rndpath = Directory.GetFiles("memes").ElementAt(rnd.Next(1, Directory.GetFiles("memes").Length));
-                await a.SendFileAsync(rndpath, "Here is your meme!");
-                //await Client.GetGuildAsync(691036170238427186).Result.GetChannel(729099294669275228).SendFileAsync(rndpath);
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-            }
-        }
-
-        async Task PostAllTheFunny(MessageCreateEventArgs a)
-        {
-            try
-            {
-                await a.Channel.SendMessageAsync("I am sending " + Directory.GetFiles("memes").Length+" memes to you!");
-                foreach (string item in Directory.GetFiles("memes"))
-                {
-                    await a.Guild.GetMemberAsync(a.Author.Id).Result.SendFileAsync(item);
-                    await Task.Delay(3000);
-                }
-            }
-            catch (Exception ex)
-            {
-                await a.Channel.SendMessageAsync(ex.Message);
-            }
-        }
-
-        async Task UpdateTheFunny(MessageCreateEventArgs a)
-        {
-            // C:\Users\Server Computer\Desktop\watchin bot\WatchinWeebsBot\WatchinWeebsBot\bin\Debug\netcoreapp3.1\memes
-            string[] strcd =
-            {
-                "C:",
-                "Users",
-                "Server Computer",
-                "Desktop",
-                "watchin bot",
-                "WatchinWeebsBot",
-                "WatchinWeebsBot",
-                "bin",
-                "Debug",
-                "netcoreapp3.1",
-                "memes"
-            };
-            string finalpath = Path.Combine(strcd);
-            string strCmdText = "'/C cd "+finalpath+"&& git pull origin master";
-            Process.Start("CMD.exe", strCmdText);
         }
 
         async Task Client_GuildMemberBanned(GuildBanAddEventArgs e)
@@ -188,40 +141,6 @@ namespace WatchinWeebsBot
             {
                 Console.WriteLine(ex.Message);
             }
-        }
-
-        /*                 
-await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the commands: \n" +
-    "hello nezuko \n" +
-    "!nezukoupdateme \n" +
-    "!postthefunny \n" +
-    "!restart \n" +
-    "!quit \n" +
-    "!nezban \n" +
-    "!showmeallcool \n" +
-    "!smsg \n" +
-    "nezuko am i cool \n" +
-    "nezuko is he cool \n" +
-    "!delmsg \n" +
-    "make channel nezuko \n" +
-    "delete channel nezuko \n" +
-    "!addcool \n" +
-    "!addcool \n" +
-    "!removecool \n" +
-    "!trace \n" +
-    "!untrace \n");
-*/
-
-        public bool tracing = false;
-        public static string[] basemain = { "227462990293762049", "239647961502580737", "453826077442179072" };
-        public List<string> important = new List<string>(basemain);
-
-        private bool CheckIfCoolPerson(ulong userId)
-        {
-            // You shouldn't keep member ids in a publically accessible place.
-            return Config.ImportantMembers.Values.Contains(userId);
-            // Why'd you have this line? As far as I can tell this wouldn't ever return true with the list of Important Members you have.
-            //  && a.Author.Id.ToString() != "<some_user_id>"
         }
 
         async Task Client_MessageSent(MessageCreateEventArgs e)
@@ -270,95 +189,20 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
                 //        await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
                 //    }
                 //}
-                if (e.Message.Content.ToLower().Contains("!addcool") )
-                {
-                    var guy = e.Message.MentionedUsers.ElementAtOrDefault(0).Id.ToString();
-                    if (CheckIfCoolPerson(e))
-                    {
-                        if (guy == "257204702528274433" && !e.Message.Author.IsBot)
-                        {
-                            await e.Message.Channel.SendMessageAsync("Stefo isn't going to get cool person.");
-                            await e.Guild.GetMemberAsync(227462990293762049).Result.SendMessageAsync(e.Message.Author.Username + " tried giving Stefo cool role. Bad boy.");
-                        }
-                        else
-                        {
-                            important.Add(e.Message.MentionedUsers.ElementAtOrDefault(0).Id.ToString());
-                            await e.Message.Channel.SendMessageAsync("Added!");
-                        }
-                    }
-                    else
-                    {
-                        await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
-                    }
-                }
-                if (e.Message.Content.ToLower().Contains("!removecool"))
-                {
-                    if (CheckIfCoolPerson(e))
-                    {
-                        var guy = e.Message.MentionedUsers.ElementAtOrDefault(0).Id.ToString();
-                        if (guy == "227462990293762049")
-                        {
-                            await e.Message.Channel.SendMessageAsync("You can't remove my owner, silly!");
-                        }
-                        else
-                        {
-                            var index = important.FindIndex(x => x.Contains(guy));
-                            important.RemoveAt(index);
-                            await e.Message.Channel.SendMessageAsync("Removed!");
-                        }
-                    }
-                    else
-                    {
-                        await e.Message.Channel.SendMessageAsync("Only cool people can execute this!.");
-                    }
-                }
-                if (e.Message.Content.ToLower().Contains("unlock this chat") )
-                {
-                    if (e.Message.Author.Id.ToString() == "227462990293762049")
-                    {
-                        foreach (string item in LockedChannelsIds)
-                        {
-                            if (item == e.Channel.Id.ToString())
-                            {
+                //if (e.Message.Content.ToLower().Contains("unlock this chat") )
+                //{
+                //    if (e.Message.Author.Id.ToString() == "227462990293762049")
+                //    {
+                //        foreach (string item in LockedChannelsIds)
+                //        {
+                //            if (item == e.Channel.Id.ToString())
+                //            {
 
-                            }
-                        }
-                    }
-                }
-                if (e.Message.Content.ToLower().Contains("!trace"))
-                {
-                    if (CheckIfCoolPerson(e))
-                    {
-                        tracing = true;
-                        await e.Message.DeleteAsync();
-                    }
-                }
-                if (e.Message.Content.ToLower().Contains("!untrace"))
-                {
-                    if (CheckIfCoolPerson(e))
-                    {
-                        tracing = true;
-                        await e.Message.DeleteAsync();
-                    }
-                }
-                if (e.Message.Content.ToLower().Contains("!hourlymeme"))
-                {
-                    if (CheckIfCoolPerson(e))
-                    {
-                        HourlyMemesChannelList.Add(e.MentionedChannels.ElementAt(0));
-                        await e.Message.RespondAsync("Added: " + e.MentionedChannels.ElementAt(0).Name + " to the list!");
-                    }
-                }
-                if (e.Message.Content.ToLower().Contains("!memelist"))
-                {
-                    string str = "";
-                    foreach(var item in HourlyMemesChannelList)
-                    {
-                        str = str + item.Name + Environment.NewLine;
-                    }
-                    await e.Message.RespondAsync("Channels currently being memed:" + Environment.NewLine+str);
-                }
-                if (tracing && e.Message.Author.Id.ToString() == "227462990293762049" && !e.Message.Content.Contains("!trace") && !e.Message.Content.Contains("!untrace") )
+                //            }
+                //        }
+                //    }
+                //}
+                if (Storage.IdsToTrace.Contains(e.Author.Id) && !e.Message.Content.StartsWith("!trace") && !e.Message.Content.StartsWith("!untrace") )
                 {
                     await e.Message.Channel.SendMessageAsync(e.Message.Content);
                     await e.Message.DeleteAsync();
@@ -370,29 +214,31 @@ await e.Guild.GetMemberAsync(e.Author.Id).Result.SendMessageAsync("Here are the 
             }
         }
 
-        async Task Client_MessageDeleted(MessageDeleteEventArgs e)
-        {
-            try
-            {
 
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
+        // Why do you have these if you aren't going to use them?
+        //async Task Client_MessageDeleted(MessageDeleteEventArgs e)
+        //{
+        //    try
+        //    {
 
-        async Task Client_BanRemoved(GuildBanRemoveEventArgs e)
-        {
-            try
-            {
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //    }
+        //}
+
+        //async Task Client_BanRemoved(GuildBanRemoveEventArgs e)
+        //{
+        //    try
+        //    {
                 
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-        }
+        //    }
+        //    catch(Exception ex)
+        //    {
+        //        Console.WriteLine(ex.Message);
+        //    }
+        //}
 
         async Task Client_MemberLeave(GuildMemberRemoveEventArgs e)
         {

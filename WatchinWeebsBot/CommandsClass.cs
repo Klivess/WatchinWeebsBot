@@ -3,11 +3,11 @@ using DSharpPlus.CommandsNext.Attributes;
 using DSharpPlus.Entities;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace WatchinWeebsBot
@@ -15,19 +15,21 @@ namespace WatchinWeebsBot
     public class CommandsClass : BaseCommandModule
     {
         private readonly ConfigJson config;
-        private readonly ILogger logger;
+        private readonly InMemoryStorage storage;
 
-        public CommandsClass(ConfigJson config, ILogger logger)
+        public CommandsClass(ConfigJson config, InMemoryStorage storage)
         {
             this.config = config;
-            this.logger = logger;
+            this.storage = storage;
         }
 
         [Command("hello nezuko")]
         public async Task HelloNezuko(CommandContext context)
         {
-            if (IsSpecifiedUser(context.Member.Id, config.SomeRandomUserId))
+            if (IsSpecifiedUser(context.Member.Id, config.Users["RandoWhoCantSayHelloToNezuko"]))
             {
+                // Thought this might be funnier. XD
+                await context.RespondAsync("Hmmph. :triumph:");
                 return;
             }
             await context.RespondAsync("Hello!");
@@ -36,7 +38,12 @@ namespace WatchinWeebsBot
         [Command("postallthefunny")]
         public async Task PostAllTheFunnies(CommandContext context)
         {
-            logger.LogInformation("Someone wants all of the memes!");
+            context.Client.DebugLogger
+                .LogMessage(
+                    DSharpPlus.LogLevel.Info, 
+                    "Commands",
+                    "Someone wants all of the memes!",
+                    DateTime.Now);
 
 
             await context.RespondAsync("I am sending " + Directory.GetFiles("memes").Length + " memes to you!");
@@ -102,7 +109,13 @@ namespace WatchinWeebsBot
         [Command("terrariaplayers")]
         public async Task TerrariaPlayers(CommandContext context)
         {
-            logger.LogInformation("Someone wants terraria players!");
+
+            context.Client.DebugLogger
+                .LogMessage(
+                    DSharpPlus.LogLevel.Info,
+                    "Commands",
+                    "Someone wants terraria players!",
+                    DateTime.Now);
             // this is fucking terrible code...
             Process[] localByName = Process.GetProcessesByName("Terraria");
             StreamWriter mystream = localByName.ElementAtOrDefault(0).StandardInput;
@@ -277,8 +290,76 @@ namespace WatchinWeebsBot
             await context.RespondAsync("Channel has been deleted");
         }
 
+        [Command("addcool")]
+        public async Task AddImportant(CommandContext context, DiscordMember member)
+        {
+            if (!config.ImportantMembers.ContainsValue(context.Member.Id))
+            {
+                await context.RespondAsync("Only cool people can execute this!.");
+                return;
+            }
 
+            if (IsSpecifiedUser(member.Id, config.Users["Stefo"]))
+            {
+                await context.RespondAsync("Stefo isn't going to get cool person.");
+                DiscordMember klives = (DiscordMember) await context.Client.GetUserAsync(config.ImportantMembers["Klives"]);
+                await klives.SendMessageAsync($"{context.Member.Username} tried giving Stefo cool role. Bad boy.");
+                return;
+            }
 
+            config.ImportantMembers.Add(member.Username, member.Id);
+            string jsonString = JsonSerializer.Serialize(config);
+            File.WriteAllText("config.json", jsonString);
+            await context.RespondAsync($"{member.Username} added!");
+        }
+
+        [Command("removecool")]
+        public async Task RemoveImportant(CommandContext context, DiscordMember member)
+        {
+            if (!config.ImportantMembers.ContainsValue(context.Member.Id))
+            {
+                await context.RespondAsync("Only cool people can execute this!.");
+                return;
+            }
+
+            if (IsSpecifiedUser(member.Id, config.ImportantMembers["Klives"]))
+            {
+                await context.RespondAsync("You can't remove my owner, silly!");
+                return;
+            }
+
+            string key = config.ImportantMembers.First(item => item.Value == member.Id).Key;
+            config.ImportantMembers.Remove(key);
+            string jsonString = JsonSerializer.Serialize(config);
+            File.WriteAllText("config.json", jsonString);
+            await context.RespondAsync("Removed!");
+        }
+
+        [Command("trace")]
+        public async Task ActivateTrace(CommandContext context)
+        {
+            if (!config.ImportantMembers.ContainsValue(context.Member.Id))
+            {
+                await context.RespondAsync("Only cool people can execute this!.");
+                return;
+            }
+
+            storage.IdsToTrace.Add(context.Member.Id);
+            await context.Message.DeleteAsync();
+        }
+        
+        [Command("untrace")]
+        public async Task DeactivateTrace(CommandContext context)
+        {
+            if (!config.ImportantMembers.ContainsValue(context.Member.Id))
+            {
+                await context.RespondAsync("Only cool people can execute this!.");
+                return;
+            }
+
+            storage.IdsToTrace.Remove(context.Member.Id);
+            await context.Message.DeleteAsync();
+        }
 
         private bool IsSpecifiedUser(ulong userId, ulong specifiedUserId)
         {

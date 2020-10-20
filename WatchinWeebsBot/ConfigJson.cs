@@ -11,7 +11,5 @@ namespace WatchinWeebsBot
         public Dictionary<string, ulong> RoleIds { get; set; }
 
         public Dictionary<string, ulong> Users { get; set; }
-
-        public bool Trace { get; set; }
     }
 }

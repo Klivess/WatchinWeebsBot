@@ -1,13 +1,15 @@
 {
   "Token": "<token>",
-  "ImportantMemberIds": {
+  "ImportantMembers": {
     "Elmo": 1234,
-    "Klives": 2345,
-    "Cow": 3456
+    "Klives": 1234
   },
   "RoleIds": {
     "AmongUs": 1234,
-    "Destiny": 2345
+    "Destiny": 1234
   },
-  "SomeRandomUserId": 1234
+  "Users": {
+    "Stefo": 1234,
+    "RandoWhoCantSayHelloToNezuko": 1234
+  }
 }

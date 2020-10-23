@@ -1,0 +1,15 @@
+{
+  "Token": "<token>",
+  "ImportantMembers": {
+    "Elmo": 1234,
+    "Klives": 1234
+  },
+  "RoleIds": {
+    "AmongUs": 1234,
+    "Destiny": 1234
+  },
+  "Users": {
+    "Stefo": 1234,
+    "RandoWhoCantSayHelloToNezuko": 1234
+  }
+}
